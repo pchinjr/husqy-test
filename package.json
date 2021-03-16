@@ -7,5 +7,8 @@
   },
   "devDependencies": {
     "@architect/architect": "^8.4.10"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
   }
 }
