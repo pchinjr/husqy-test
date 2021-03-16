@@ -3,7 +3,6 @@ const fetch = require('node-fetch');
 exports.handler = async function http(req) {
 
   let url = `https://api.amc.husqvarna.dev/v1/mowers/${process.env.MOWER_ID}`
-
   let options = {
     method: 'GET',
     headers: {
@@ -12,9 +11,7 @@ exports.handler = async function http(req) {
       'Authorization-Provider': 'husqvarna'
     }
   }
-
   let data
-
   await fetch(url, options)
     .then(res => res.json())
     .then(json => response(json))
@@ -24,6 +21,11 @@ exports.handler = async function http(req) {
     console.log(json.data)
     data = json.data
   }
+  let battery = data.attributes.battery
+  let activity = data.attributes.mower.activity
+
+  let html = `<h1>battery level is ${battery.batteryPercent}% and activity is ${activity}</h1>`
+
 
   return {
     headers: {
@@ -31,6 +33,6 @@ exports.handler = async function http(req) {
       'cache-control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0'
     },
     statusCode: 200,
-    body: JSON.stringify(data)
+    body: html
   }
 }
